@@ -1,4 +1,5 @@
 import datetime as DT
+import datetime
 
 
 def str_to_date(self_date, other_date):
@@ -7,6 +8,7 @@ def str_to_date(self_date, other_date):
     self_bdate = DT.date(int(dt1[2]), int(dt1[1]), int(dt1[0]))
     other_bdate = DT.date(int(dt2[2]), int(dt2[1]), int(dt2[0]))
     return self_bdate, other_bdate
+
 
 class Car:
     def __init__(self, vin, nomer, marka, model, age, power, probeg, vladelec, price):
@@ -30,6 +32,28 @@ class Car:
     def set_mileage_km(self, summa):
         self.probeg += summa
 
+    # Сравнение автомобилей >, >=, <, <=, ==, !=
+    def __lt__(self, other):  # <
+        self_probeg, other_probeg = str_to_date(self.probeg, other.probeg)
+        return self_probeg < other_probeg
+
+    def __eq__(self, other):  # ==
+        self_probeg, other_probeg = str_to_date(self.probeg, other.probeg)
+        return self_probeg == other_probeg
+
+    def __le__(self, other):  # <=
+        if self.__eq__(other):
+            return True
+
+        if self.__lt__(other):
+            return True
+        else:
+            return False
+
+    def get_age(self):
+        d = datetime.date.today().year
+        return f"Возраст авто: {d - self.age}"
+
 
 class Owner:
     def __init__(self, fio, nomer_vod, bdate, region, avto):
@@ -38,7 +62,6 @@ class Owner:
         self.bdate = bdate
         self.region = region
         self.avto = avto
-
 
     # Вывод информации о владельце
     def __str__(self):
@@ -63,6 +86,7 @@ class Owner:
         else:
             return False
 
+
 car_1 = Car('KSDUSUDH6KJHJ34FG2', 'А345РН750', 'LADA', 'Granta', 2020, 98, 1000, 1, 750000)
 print(car_1)
 
@@ -76,3 +100,5 @@ print(man_1 > man_2)
 print(man_1 == man_2)
 print(man_1 <= man_2)
 print(man_1 >= man_2)
+
+print(car_1.get_age())
